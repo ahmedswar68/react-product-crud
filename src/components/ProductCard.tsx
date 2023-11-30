@@ -4,7 +4,11 @@ interface IProps{
 
 const ProductCard = ({}: IProps) => {
     return (
-        <div>product Card</div>
+        <div className="border border-white text-white rounded-md p-4">
+            <span>
+            Product Card
+            </span>
+        </div>
     )
 }
 
