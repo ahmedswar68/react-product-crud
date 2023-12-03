@@ -1,4 +1,5 @@
 import Image from "./Image";
+import Button from "./ui/Button";
 
 interface IProps {}
 
@@ -30,8 +31,8 @@ const ProductCard = ({}: IProps) => {
         />
       </div>
       <div className="flex items-center justify-between space-x-2 mt-5">
-        <button className="bg-blue-600 p-2 w-full rounded-md">Edit</button>
-        <button className="bg-red-600 p-2 w-full rounded-md">Delete</button>
+        <Button className="bg-blue-600">Edit</Button>
+        <Button className="bg-red-600">Delete</Button>
       </div>
     </div>
   );
