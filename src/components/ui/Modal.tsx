@@ -3,17 +3,12 @@ import { Fragment, ReactNode } from "react";
 interface IProps {
   isOpen: boolean;
   title?: string;
-  children : ReactNode,
-  closeModal : ()=>void
-
+  children: ReactNode;
+  closeModal: () => void;
 }
-const Modal = ({ title,isOpen,closeModal,children }: IProps) => {
-  
-
-
+const Modal = ({ title, isOpen, closeModal, children }: IProps) => {
   return (
     <>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -49,9 +44,7 @@ const Modal = ({ title,isOpen,closeModal,children }: IProps) => {
                     </Dialog.Title>
                   )}
 
-                  <div className="mt-4">
-                    {children}
-                  </div>
+                  <div className="mt-4">{children}</div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
