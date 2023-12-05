@@ -6,6 +6,7 @@ import { formInputsList, productList } from "./data";
 import Input from "./components/ui/Input";
 import { IProduct } from "./interfaces";
 import { productValidation } from "./validation";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
 
@@ -52,7 +53,7 @@ function App() {
       price,
       imageURL,
     });
-    
+
     const hasErrorMsg =
       Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "");
 
@@ -79,6 +80,7 @@ function App() {
       >
         {input.label}
       </label>
+
       <Input
         type="text"
         id={input.id}
@@ -86,6 +88,7 @@ function App() {
         value={product[input.name]}
         onChange={onChangeHandler}
       />
+      <ErrorMessage msg={errors[input.name]} />
     </div>
   ));
 
