@@ -61,6 +61,7 @@ function App() {
       setErrors(errors);
       return;
     }
+    console.log("Product has been added successfully!");
   }
 
   const onCancel = ()=>{
