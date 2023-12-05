@@ -30,6 +30,8 @@ function App() {
     price: "",
   });
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
+  const [tempColors, setTempColors] = useState<string[]>([]);
+console.log(tempColors);
 
   // ---------------HANDLER---------------------------
   const closeModal = () => setIsOpen(false);
@@ -74,6 +76,7 @@ function App() {
     setProduct(defaultProductObj);
   };
 
+  // ---------------RENDERS---------------------------
   const productsRenderList = productList.map((product) => (
     <ProductCard product={product} key={product.id} />
   ));
@@ -99,9 +102,20 @@ function App() {
   ));
 
   const colorsRenderList = colors.map((color) => (
-    <CircleColor key={color} color={color} />
+    <CircleColor
+      key={color}
+      color={color}
+      onClick={()=>{
+        if(tempColors.includes(color)){
+          setTempColors(prev => prev.filter(item =>item !== color));
+          return;
+        }
+        setTempColors(prev => [...prev, color]);
+      }}
+    />
   ));
-  
+
+  // ---------------JSX---------------------------
   return (
     <div className="container">
       <Button
