@@ -1,13 +1,15 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, FormEvent } from "react";
 import ProductCard from "./components/ProductCard";
 import Button from "./components/ui/Button";
 import Modal from "./components/ui/Modal";
 import { formInputsList, productList } from "./data";
 import Input from "./components/ui/Input";
+import { IProduct } from "./interfaces";
+import { productValidation } from "./validation";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [product, setProduct] = useState({
+
+  const defaultProductObj = {
     title: "",
     description: "",
     imageURL: "",
@@ -17,8 +19,14 @@ function App() {
       name: "",
       imageURL: "",
     },
-  });
+  }
+// ---------------STATE---------------------------
+  const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState({ title: "", description: "", imageURL: "", price: "" });
+  const [product, setProduct] = useState<IProduct>(defaultProductObj);
 
+
+  // ---------------HANDLER---------------------------
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +36,36 @@ function App() {
       ...product,
       [name]: value,
     });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
+
+  const submitHandler = (event: FormEvent<HTMLFormElement>): void =>{
+    event.preventDefault();
+    const { title, description, price, imageURL } = product;
+
+    const errors = productValidation({
+      title,
+      description,
+      price,
+      imageURL,
+    });
+    
+    const hasErrorMsg =
+      Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "");
+
+    if (!hasErrorMsg) {
+      setErrors(errors);
+      return;
+    }
+  }
+
+  const onCancel = ()=>{
+    closeModal();
+    setProduct(defaultProductObj);
+  }
 
   const productsRenderList = productList.map((product) => (
     <ProductCard product={product} key={product.id} />
@@ -52,6 +89,7 @@ function App() {
     </div>
   ));
 
+
   return (
     <div className="container">
       <Button
@@ -61,13 +99,13 @@ function App() {
         Add new
       </Button>
       <Modal isOpen={isOpen} title="Add a new product" closeModal={closeModal}>
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={submitHandler}>
           {formRenderList}
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">
               Submit
             </Button>
-            <Button className="bg-[#f5f5fa] hover:bg-gray-300 !text-black">
+            <Button className="bg-[#f5f5fa] hover:bg-gray-300 !text-black" onClick={onCancel}>
               Cancel
             </Button>
           </div>
