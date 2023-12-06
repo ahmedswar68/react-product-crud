@@ -30,8 +30,8 @@ function App() {
     price: "",
   });
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
+  const [products, setProducts] = useState<IProduct[]>(productList);
   const [tempColors, setTempColors] = useState<string[]>([]);
-console.log(tempColors);
 
   // ---------------HANDLER---------------------------
   const closeModal = () => setIsOpen(false);
@@ -68,7 +68,9 @@ console.log(tempColors);
       setErrors(errors);
       return;
     }
-    console.log("Product has been added successfully!");
+    setProducts((prev) => [{ ...product, colors: tempColors }, ...prev]);
+    setTempColors([]);
+    closeModal();
   };
 
   const onCancel = () => {
@@ -77,7 +79,7 @@ console.log(tempColors);
   };
 
   // ---------------RENDERS---------------------------
-  const productsRenderList = productList.map((product) => (
+  const productsRenderList = products.map((product) => (
     <ProductCard product={product} key={product.id} />
   ));
 
@@ -129,6 +131,17 @@ console.log(tempColors);
           {formRenderList}
           <div className="flex items-center my-4 space-x-2">
             {colorsRenderList}
+          </div>
+          <div className="flex items-center flex-wrap space-x-1">
+            {tempColors.map(color => (
+              <span
+                key={color}
+                className="p-1 mr-1 mb-1 text-xs rounded-md text-white"
+                style={{ backgroundColor: color }}
+              >
+                {color}
+              </span>
+            ))}
           </div>
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">
